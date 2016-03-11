@@ -17,6 +17,15 @@ def xml_header():
     f.write(s)
     f.close()
 
+def xml_end():
+    footer = """
+</urlset>
+"""[1:-1]
+    f = open("sitemap.xml","a")
+    f.write(footer)
+    s = '\n'
+    f.write(s)
+    f.close()
 
 def create_sitemap():
     reader = csv.reader(open('urls.csv', 'r'))
@@ -27,20 +36,20 @@ def create_sitemap():
 
     for url in url_list:
         try:
-            req = urllib2.urlopen(url)
-            status_code= req.getcode()
-            if (status_code == 200):
-                sitemap =  """
+            # req = urllib2.urlopen(url)
+            # status_code= req.getcode()
+            # if (status_code == 200):
+            sitemap =  """
 <url>
     <loc>{url}</loc>
 </url>
                 """.format(url=url).strip()
 
-                f = open("sitemap.xml","a")
-                f.write(sitemap)
-                s = '\n'
-                f.write(s)
-                f.close()
+            f = open("sitemap.xml","a")
+            f.write(sitemap)
+            s = '\n'
+            f.write(s)
+            f.close()
 
         except urllib2.HTTPError as e:
             print 'HTTPError'
@@ -51,3 +60,4 @@ def create_sitemap():
 if __name__ == '__main__':
     xml_header();
     create_sitemap();
+    xml_end();
